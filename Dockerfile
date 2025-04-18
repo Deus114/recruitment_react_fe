@@ -1,5 +1,5 @@
 # Stage 1: Builder
-FROM node:20.2.3-alpine AS builder
+FROM node:20.2.3 AS builder
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ RUN npm install
 RUN npm run build
 
 # Stage 2: Runtime
-FROM node:20.2.3-alpine
+FROM node:20.2.3
 
 WORKDIR /app
 
