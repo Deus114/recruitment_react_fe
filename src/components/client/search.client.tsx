@@ -2,15 +2,30 @@ import { Button, Col, Form, Row, Select } from 'antd';
 import { EnvironmentOutlined, MonitorOutlined } from '@ant-design/icons';
 import { LOCATION_LIST, SKILLS_LIST } from '@/config/utils';
 import { ProForm } from '@ant-design/pro-components';
-
-const SearchClient = () => {
+import { useState } from 'react';
+interface IProps {
+    setQs: (v: string) => void;
+}
+const SearchClient = (prop: IProps) => {
     const optionsSkills = SKILLS_LIST;
     const optionsLocations = LOCATION_LIST;
     const [form] = Form.useForm();
+    const { setQs } = prop;
+    const [location, setLocation] = useState<string>("");
+    const [skills, setSkills] = useState<string>("");
 
+    const onChangeLocation = (values: string[]) => {
+        let l = values.join(',');
+        setLocation(`&location=${l}`);
+    }
 
-    const onFinish = async (values: any) => {
+    const onChangeSkills = (values: string[]) => {
+        let s = values.join(',');
+        setSkills(`&skills=${s}`);
+    }
 
+    const onFinish = async () => {
+        setQs(`${location}${skills}`);
     }
 
     return (
@@ -32,7 +47,6 @@ const SearchClient = () => {
                         <Select
                             mode="multiple"
                             allowClear
-                            showArrow={false}
                             style={{ width: '100%' }}
                             placeholder={
                                 <>
@@ -41,6 +55,9 @@ const SearchClient = () => {
                             }
                             optionLabelProp="label"
                             options={optionsSkills}
+                            onChange={(values) => {
+                                onChangeSkills(values);
+                            }}
                         />
                     </ProForm.Item>
                 </Col>
@@ -49,7 +66,6 @@ const SearchClient = () => {
                         <Select
                             mode="multiple"
                             allowClear
-                            showArrow={false}
                             style={{ width: '100%' }}
                             placeholder={
                                 <>
@@ -58,11 +74,17 @@ const SearchClient = () => {
                             }
                             optionLabelProp="label"
                             options={optionsLocations}
+                            onChange={(values) => {
+                                onChangeLocation(values);
+                            }}
                         />
                     </ProForm.Item>
                 </Col>
                 <Col span={12} md={4}>
-                    <Button type='primary' onClick={() => form.submit()}>Search</Button>
+                    <Button type='primary' onClick={(value) => {
+                        onFinish()
+                    }
+                    }>Search</Button>
                 </Col>
             </Row>
         </ProForm>

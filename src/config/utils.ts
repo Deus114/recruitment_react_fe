@@ -1,4 +1,5 @@
 import { grey, green, blue, red, orange } from '@ant-design/colors';
+import dayjs from 'dayjs';
 
 export const SKILLS_LIST =
     [

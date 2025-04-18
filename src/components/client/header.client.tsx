@@ -72,13 +72,6 @@ const Header = (props: any) => {
             icon: <ContactsOutlined />
         },
         {
-            label: <Link
-                to={"/admin"}
-            >Trang Quản Trị</Link>,
-            key: 'admin',
-            icon: <DashOutlined />
-        },
-        {
             label: <label
                 style={{ cursor: 'pointer' }}
                 onClick={() => handleLogout()}
@@ -87,6 +80,16 @@ const Header = (props: any) => {
             icon: <LogoutOutlined />
         },
     ];
+
+    if (user?.role?.name === 'SUPER_ADMIN') {
+        itemsDropdown.unshift({
+            label: <Link
+                to={"/admin"}
+            >Trang Quản Trị</Link>,
+            key: 'admin',
+            icon: <DashOutlined />
+        })
+    }
 
     const itemsMobiles = [...items, ...itemsDropdown];
 

@@ -1,29 +1,15 @@
 import { Button, Divider, Form, Input, message, notification } from 'antd';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { callLogin } from 'config/api';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUserLoginInfo } from '@/redux/slice/accountSlide';
 import styles from 'styles/auth.module.scss';
-import { useAppSelector } from '@/redux/hooks';
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const [isSubmit, setIsSubmit] = useState(false);
     const dispatch = useDispatch();
-    const isAuthenticated = useAppSelector(state => state.account.isAuthenticated);
-
-    let location = useLocation();
-    let params = new URLSearchParams(location.search);
-    const callback = params?.get("callback");
-
-    useEffect(() => {
-        //đã login => redirect to '/'
-        if (isAuthenticated) {
-            // navigate('/');
-            window.location.href = '/';
-        }
-    }, [])
 
     const onFinish = async (values: any) => {
         const { username, password } = values;
@@ -32,9 +18,9 @@ const LoginPage = () => {
         setIsSubmit(false);
         if (res?.data) {
             localStorage.setItem('access_token', res.data.access_token);
-            dispatch(setUserLoginInfo(res.data.user))
+            dispatch(setUserLoginInfo(res.data));
             message.success('Đăng nhập tài khoản thành công!');
-            window.location.href = callback ? callback : '/';
+            navigate("/");
         } else {
             notification.error({
                 message: "Có lỗi xảy ra",

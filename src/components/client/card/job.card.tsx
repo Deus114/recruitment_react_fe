@@ -1,5 +1,5 @@
 import { callFetchJob } from '@/config/api';
-import { LOCATION_LIST, convertSlug, getLocationName } from '@/config/utils';
+import { convertSlug, getLocationName } from '@/config/utils';
 import { IJob } from '@/types/backend';
 import { EnvironmentOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import { Card, Col, Empty, Pagination, Row, Spin } from 'antd';
@@ -13,16 +13,17 @@ dayjs.extend(relativeTime)
 
 interface IProps {
     showPagination?: boolean;
+    qs?: string;
 }
 
 const JobCard = (props: IProps) => {
-    const { showPagination = false } = props;
+    const { showPagination = false, qs = "" } = props;
 
     const [displayJob, setDisplayJob] = useState<IJob[] | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [current, setCurrent] = useState(1);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(6);
     const [total, setTotal] = useState(0);
     const [filter, setFilter] = useState("");
     const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
@@ -30,7 +31,7 @@ const JobCard = (props: IProps) => {
 
     useEffect(() => {
         fetchJob();
-    }, [current, pageSize, filter, sortQuery]);
+    }, [current, pageSize, filter, sortQuery, qs]);
 
     const fetchJob = async () => {
         setIsLoading(true)
@@ -40,6 +41,9 @@ const JobCard = (props: IProps) => {
         }
         if (sortQuery) {
             query += `&${sortQuery}`;
+        }
+        if (qs) {
+            query += `&${qs}`;
         }
 
         const res = await callFetchJob(query);
