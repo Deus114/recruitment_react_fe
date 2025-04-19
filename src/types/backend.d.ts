@@ -168,3 +168,9 @@ export interface ISubscribers {
     createdAt?: string;
     updatedAt?: string;
 }
+
+export interface IDashboard {
+    countUser: number;
+    countCompany: number;
+    countJob: number
+}

@@ -38,10 +38,6 @@ const LayoutAdmin = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        console.log(user);
-    }, [])
-
-    useEffect(() => {
         fetchMenuItems()
     }, [permissions])
 

@@ -35,6 +35,9 @@ export const ALL_PERMISSIONS = {
         UPDATE: { method: "PATCH", apiPath: '/api/v1/users/:id', module: "USERS" },
         DELETE: { method: "DELETE", apiPath: '/api/v1/users/:id', module: "USERS" },
     },
+    DATABASE: {
+        GET_DASHBOARD: { method: "GET", apiPath: '/api/v1/databases/dashboard', module: "DATABASE" },
+    }
 }
 
 export const ALL_MODULES = {
@@ -46,5 +49,6 @@ export const ALL_MODULES = {
     RESUMES: 'RESUMES',
     ROLES: 'ROLES',
     USERS: 'USERS',
+    DATABASE: 'DATABASE',
     SUBSCRIBERS: 'SUBSCRIBERS'
 }

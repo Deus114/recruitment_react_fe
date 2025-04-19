@@ -1,4 +1,4 @@
-import { IBackendRes, ICompany, IAccount, IUser, IModelPaginate, IGetAccount, IJob, IResume, IPermission, IRole, ISubscribers } from '@/types/backend';
+import { IBackendRes, ICompany, IAccount, IUser, IModelPaginate, IGetAccount, IJob, IResume, IPermission, IRole, ISubscribers, IDashboard } from '@/types/backend';
 import axios from 'config/axios-customize';
 
 /**
@@ -216,3 +216,11 @@ export const callFetchSubscriberById = (id: string) => {
     return axios.get<IBackendRes<ISubscribers>>(`/api/v1/subscribers/${id}`);
 }
 
+/**
+ * 
+Module Database
+ */
+
+export const callGetDashboard = () => {
+    return axios.get<IBackendRes<IDashboard>>(`/api/v1/databases/dashboard`);
+}
