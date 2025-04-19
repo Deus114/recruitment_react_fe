@@ -72,10 +72,12 @@ const Header = (props: any) => {
             icon: <ContactsOutlined />
         },
         {
-            label: <label
-                style={{ cursor: 'pointer' }}
-                onClick={() => handleLogout()}
-            >Đăng xuất</label>,
+            label: <a onClick={() => handleLogout()}>
+                <label
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => handleLogout()}
+                >Đăng xuất</label>
+            </a>,
             key: 'logout',
             icon: <LogoutOutlined />
         },

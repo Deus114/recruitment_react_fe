@@ -43,8 +43,6 @@ export const callUploadSingleFile = (file: any, folderType: string) => {
 }
 
 
-
-
 /**
  * 
 Module Company

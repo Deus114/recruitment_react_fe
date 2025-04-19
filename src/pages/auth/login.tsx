@@ -67,14 +67,15 @@ const LoginPage = () => {
                             </Form.Item>
 
                             <Form.Item
-                            // wrapperCol={{ offset: 6, span: 16 }}
+                                style={{ display: 'flex', justifyContent: 'center' }}
+                                wrapperCol={{ span: 24 }}
                             >
                                 <Button type="primary" htmlType="submit" loading={isSubmit}>
                                     Đăng nhập
                                 </Button>
                             </Form.Item>
                             <Divider>Or</Divider>
-                            <p className="text text-normal">Chưa có tài khoản ?
+                            <p className="text text-normal" style={{ textAlign: 'center' }}>Chưa có tài khoản ?
                                 <span>
                                     <Link to='/register' > Đăng Ký </Link>
                                 </span>

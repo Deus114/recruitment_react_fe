@@ -112,14 +112,15 @@ const RegisterPage = () => {
                             </Form.Item>
 
                             < Form.Item
-                            // wrapperCol={{ offset: 6, span: 16 }}
+                                style={{ display: 'flex', justifyContent: 'center' }}
+                                wrapperCol={{ span: 24 }}
                             >
                                 <Button type="primary" htmlType="submit" loading={isSubmit} >
                                     Đăng ký
                                 </Button>
                             </Form.Item>
                             <Divider> Or </Divider>
-                            <p className="text text-normal" > Đã có tài khoản ?
+                            <p className="text text-normal" style={{ textAlign: 'center' }}> Đã có tài khoản ?
                                 <span>
                                     <Link to='/login' > Đăng Nhập </Link>
                                 </span>

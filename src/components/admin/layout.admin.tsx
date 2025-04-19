@@ -8,7 +8,6 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     AliwangwangOutlined,
-    LogoutOutlined,
     HeartTwoTone,
     BugOutlined,
     ScheduleOutlined,
@@ -39,6 +38,18 @@ const LayoutAdmin = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        console.log(user);
+    }, [])
+
+    useEffect(() => {
+        fetchMenuItems()
+    }, [permissions])
+
+    useEffect(() => {
+        setActiveMenu(location.pathname)
+    }, [location])
+
+    const fetchMenuItems = () => {
         if (permissions?.length) {
             const viewCompany = permissions.find(item =>
                 item.apiPath === ALL_PERMISSIONS.COMPANIES.GET_PAGINATE.apiPath
@@ -108,17 +119,10 @@ const LayoutAdmin = () => {
                     key: '/admin/role',
                     icon: <ExceptionOutlined />
                 }] : []),
-
-
-
             ];
-
             setMenuItems(full);
         }
-    }, [permissions])
-    useEffect(() => {
-        setActiveMenu(location.pathname)
-    }, [location])
+    }
 
     const handleLogout = async () => {
         const res = await callLogout();
@@ -146,10 +150,12 @@ const LayoutAdmin = () => {
             key: 'home',
         },
         {
-            label: <label
-                style={{ cursor: 'pointer' }}
-                onClick={() => handleLogout()}
-            >Đăng xuất</label>,
+            label:
+                <a onClick={() => handleLogout()}>
+                    <label
+                        style={{ cursor: 'pointer' }}
+                    >Đăng xuất</label>
+                </a>,
             key: 'logout',
         },
     ];
@@ -211,9 +217,9 @@ const LayoutAdmin = () => {
                     <Content style={{ padding: '15px' }}>
                         <Outlet />
                     </Content>
-                    {/* <Footer style={{ padding: 10, textAlign: 'center' }}>
-                        React Typescript series Nest.JS &copy; Hỏi Dân IT - Made with <HeartTwoTone />
-                    </Footer> */}
+                    <Footer style={{ padding: 10, textAlign: 'center' }}>
+                        Copy &copy; 2025 <HeartTwoTone />
+                    </Footer>
                 </Layout>
             </Layout>
 
