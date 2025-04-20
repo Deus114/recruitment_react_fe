@@ -31,11 +31,37 @@ export interface IAccount {
             apiPath: string;
             method: string;
             module: string;
-        }[]
+        }[];
+        company: {
+            _id: string;
+            name: string
+        }
     }
 }
 
-export interface IGetAccount extends Omit<IAccount, "access_token"> { }
+export interface IGetAccount {
+    access_token: string;
+    user: {
+        _id: string;
+        email: string;
+        name: string;
+        role: {
+            _id: string;
+            name: string;
+        }
+        permissions: {
+            _id: string;
+            name: string;
+            apiPath: string;
+            method: string;
+            module: string;
+        }[];
+        company: {
+            _id: string;
+            name: string
+        }
+    }
+}
 
 export interface ICompany {
     _id?: string;

@@ -29,7 +29,11 @@ interface IState {
             apiPath: string;
             method: string;
             module: string;
-        }[]
+        }[];
+        company: {
+            _id: string;
+            name: string;
+        }
     };
     activeMenu: string;
 }
@@ -48,6 +52,10 @@ const initialState: IState = {
             name: "",
         },
         permissions: [],
+        company: {
+            _id: "",
+            name: ""
+        }
     },
 
     activeMenu: 'home'
@@ -71,6 +79,7 @@ export const accountSlide = createSlice({
             state.user.name = action.payload.name;
             state.user.role = action?.payload?.role;
             state.user.permissions = action?.payload?.permissions;
+            state.user.company = action?.payload?.company;
         },
         setLogoutAction: (state, action) => {
             localStorage.removeItem('access_token');
@@ -84,6 +93,10 @@ export const accountSlide = createSlice({
                     name: "",
                 },
                 permissions: [],
+                company: {
+                    _id: "",
+                    name: ""
+                }
             }
         },
         setRefreshTokenAction: (state, action) => {
@@ -110,6 +123,7 @@ export const accountSlide = createSlice({
                 state.user.name = action.payload.user?.name;
                 state.user.role = action?.payload?.user?.role;
                 state.user.permissions = action?.payload?.user?.permissions;
+                state.user.company = action?.payload?.user?.company;
             }
         })
 

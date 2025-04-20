@@ -1,0 +1,51 @@
+.footer {
+    background: linear-gradient(to right, #111, #300d14);
+    color: white;
+    padding: 50px 30px;
+    font-family: 'Segoe UI', sans-serif;
+    margin-top: 100px;
+
+    h3 {
+        color: white;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+            color: #ddd;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: color 0.2s;
+
+            &:hover {
+                color: white;
+            }
+
+            svg {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .contactList {
+        li {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+    }
+}

@@ -49,7 +49,7 @@ const LayoutClient = () => {
       <div className={styles['content-app']}>
         <Outlet context={[searchTerm, setSearchTerm]} />
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }

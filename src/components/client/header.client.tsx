@@ -83,7 +83,7 @@ const Header = (props: any) => {
         },
     ];
 
-    if (user?.role?.name === 'SUPER_ADMIN') {
+    if (user?.role?.name === 'SUPER_ADMIN' || user?.role?.name === 'HR') {
         itemsDropdown.unshift({
             label: <Link
                 to={"/admin"}

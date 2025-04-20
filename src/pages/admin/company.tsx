@@ -6,7 +6,7 @@ import { ICompany } from "@/types/backend";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns } from '@ant-design/pro-components';
 import { Button, Popconfirm, Space, message, notification } from "antd";
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { callDeleteCompany } from "@/config/api";
 import queryString from 'query-string';
@@ -22,6 +22,7 @@ const CompanyPage = () => {
     const isFetching = useAppSelector(state => state.company.isFetching);
     const meta = useAppSelector(state => state.company.meta);
     const companies = useAppSelector(state => state.company.result);
+    const user = useAppSelector(state => state.account.user);
     const dispatch = useAppDispatch();
 
     const handleDeleteCompany = async (_id: string | undefined) => {
@@ -200,7 +201,10 @@ const CompanyPage = () => {
                     rowKey="_id"
                     loading={isFetching}
                     columns={columns}
-                    dataSource={companies}
+                    dataSource={
+                        user?.role.name === "HR" ? companies.filter(item => item.name === user?.company?.name)
+                            : companies
+                    }
                     request={async (params, sort, filter): Promise<any> => {
                         const query = buildQuery(params, sort, filter);
                         dispatch(fetchCompany({ query }))
