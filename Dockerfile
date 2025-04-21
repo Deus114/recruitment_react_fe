@@ -25,4 +25,4 @@ COPY --from=builder /app/dist ./dist
 
 EXPOSE 3001
 
-CMD ["npm", "run", "preview", "--", "--host", "--port", "3000"]
+CMD ["npm", "run", "preview", "--", "--host", "--port", "3001"]
