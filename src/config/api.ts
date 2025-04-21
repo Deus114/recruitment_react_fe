@@ -88,6 +88,14 @@ export const callFetchUser = (query: string) => {
     return axios.get<IBackendRes<IModelPaginate<IUser>>>(`/api/v1/users?${query}`);
 }
 
+export const callUpdateUserInfo = (_id: string, name: string) => {
+    return axios.put<IBackendRes<IUser>>(`/api/v1/users`, { _id, name });
+}
+
+export const callUpdateUserPasswordApi = (email: string, oldpass: string, newpass: string) => {
+    return axios.post<IBackendRes<IUser>>(`/api/v1/users/change-password`, { email, oldpass, newpass });
+}
+
 /**
  * 
 Module Job

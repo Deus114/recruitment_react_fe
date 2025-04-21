@@ -1,14 +1,17 @@
-import { Button, Col, Form, Modal, Row, Select, Table, Tabs, message, notification } from "antd";
+import { App, Button, Col, Form, Input, Modal, Row, Select, Table, Tabs, message, notification } from "antd";
 import { isMobile } from "react-device-detect";
 import type { TabsProps } from 'antd';
 import { IResume } from "@/types/backend";
 import { useState, useEffect } from 'react';
-import { callFetchResumeByUser, callGetSubscriberSkills, callUpdateSubscriber } from "@/config/api";
+import { callFetchResumeByUser, callGetSubscriberSkills, callUpdateSubscriber, callUpdateUserInfo, callUpdateUserPasswordApi } from "@/config/api";
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { MonitorOutlined } from "@ant-design/icons";
 import { SKILLS_LIST } from "@/config/utils";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { FormProps } from "antd/lib";
+import { fetchAccount, setLogoutAction } from "@/redux/slice/accountSlide";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
     open: boolean;
@@ -93,15 +96,100 @@ const UserResume = (props: any) => {
     )
 }
 
-const UserUpdateInfo = (props: any) => {
+type FieldTypeUserInfo = {
+    _id: string;
+    name: string;
+    email: string;
+}
+
+const UserUpdateInfo = () => {
+    const [form] = Form.useForm();
+    const user = useAppSelector(state => state.account.user);
+    const [isubmit, setIsSubmit] = useState<boolean>(false);
+    const { message, notification } = App.useApp();
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (user) {
+            form.setFieldsValue({
+                _id: user._id,
+                email: user.email,
+                name: user.name,
+            })
+        }
+    }, [user])
+
+    const onFinish: FormProps<FieldTypeUserInfo>['onFinish'] = async (values) => {
+        setIsSubmit(true);
+        const { _id, name } = values;
+
+        const res = await callUpdateUserInfo(
+            _id, name
+        )
+
+        console.log(res);
+
+        if (res && res.data) {
+            dispatch(fetchAccount());
+            message.success('Cập nhật thành công!');
+            localStorage.removeItem("access_token")
+        } else {
+            notification.error({
+                message: 'Đã có lỗi xảy ra!',
+                description: res.message
+            })
+        }
+
+        setIsSubmit(false);
+    }
+
     return (
-        <div>
-            //todo
+        <div >
+            <Row style={{ display: "flex", justifyContent: "center" }}>
+                <Col sm={24} md={12} >
+                    <Form
+                        form={form}
+                        name="user-info"
+                        onFinish={onFinish}
+                        autoComplete="off"
+                    >
+                        <Form.Item<FieldTypeUserInfo>
+                            labelCol={{ span: 24 }}
+                            label="_id"
+                            name="_id"
+                            hidden
+                        >
+                            <Input disabled hidden />
+                        </Form.Item>
+                        <Form.Item<FieldTypeUserInfo>
+                            labelCol={{ span: 24 }}
+                            label="Email"
+                            name="email"
+                            rules={[{ required: true, message: 'Hãy nhập email người dùng!' }]}
+                        >
+                            <Input disabled />
+                        </Form.Item>
+                        <Form.Item<FieldTypeUserInfo>
+                            labelCol={{ span: 24 }}
+                            label="Tên người dùng"
+                            name="name"
+                            rules={[{ required: true, message: 'Hãy nhập tên người dùng!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button onClick={() => form.submit()} type="primary">
+                                Cập nhật
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Col>
+            </Row>
         </div>
     )
 }
 
-const JobByEmail = (props: any) => {
+const JobByEmail = () => {
     const [form] = Form.useForm();
     const user = useAppSelector(state => state.account.user);
 
@@ -171,6 +259,97 @@ const JobByEmail = (props: any) => {
     )
 }
 
+type FieldTypeChangePass = {
+    email: string;
+    oldPassword: string;
+    newPassword: string
+}
+
+const ChangePassword = () => {
+    const [form] = Form.useForm();
+    const user = useAppSelector(state => state.account.user);
+    const [isubmit, setIsSubmit] = useState<boolean>(false);
+    const { message, notification } = App.useApp();
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (user) {
+            form.setFieldsValue({
+                email: user.email,
+            })
+        }
+    }, [user])
+
+    const onFinish: FormProps<FieldTypeChangePass>['onFinish'] = async (values) => {
+        setIsSubmit(true);
+        const { email, oldPassword, newPassword } = values;
+
+        const res = await callUpdateUserPasswordApi(
+            email, oldPassword, newPassword
+        )
+
+        if (res && res.data) {
+            message.success('Cập nhật thành công! Vui lòng đăng nhập lại');
+            localStorage.removeItem("access_token");
+            dispatch(setLogoutAction({}));
+            navigate("/login");
+        } else {
+            notification.error({
+                message: 'Đã có lỗi xảy ra!',
+                description: res.message
+            })
+        }
+
+        setIsSubmit(false);
+    }
+
+    return (
+        <div>
+            <Row style={{ display: "flex", justifyContent: "center" }}>
+                <Col sm={24} md={12} >
+                    <Form
+                        form={form}
+                        name="user-info"
+                        onFinish={onFinish}
+                        autoComplete="off"
+                    >
+                        <Form.Item<FieldTypeChangePass>
+                            labelCol={{ span: 24 }}
+                            label="Email"
+                            name="email"
+                            rules={[{ required: true, message: 'Hãy nhập email người dùng!' }]}
+                        >
+                            <Input disabled />
+                        </Form.Item>
+                        <Form.Item<FieldTypeChangePass>
+                            labelCol={{ span: 24 }}
+                            label="Mật khẩu cũ"
+                            name="oldPassword"
+                            rules={[{ required: true, message: 'Hãy nhập Mật khẩu cũ!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item<FieldTypeChangePass>
+                            labelCol={{ span: 24 }}
+                            label="Mật khẩu mới"
+                            name="newPassword"
+                            rules={[{ required: true, message: 'Hãy nhập Mật khẩu mới!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button onClick={() => form.submit()} type="primary">
+                                Cập nhật
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Col>
+            </Row>
+        </div>
+    )
+}
+
 const ManageAccount = (props: IProps) => {
     const { open, onClose } = props;
 
@@ -197,7 +376,7 @@ const ManageAccount = (props: IProps) => {
         {
             key: 'user-password',
             label: `Thay đổi mật khẩu`,
-            children: `//todo`,
+            children: <ChangePassword />,
         },
     ];
 

@@ -18,6 +18,7 @@ const JobPage = () => {
 
     const isFetching = useAppSelector(state => state.job.isFetching);
     const meta = useAppSelector(state => state.job.meta);
+    const user = useAppSelector(state => state.account.user);
     const jobs = useAppSelector(state => state.job.result);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -220,7 +221,8 @@ const JobPage = () => {
                     rowKey="_id"
                     loading={isFetching}
                     columns={columns}
-                    dataSource={jobs}
+                    dataSource={user?.role?.name === "HR" ? jobs.filter(item => item.company?.name === user?.company?.name)
+                        : jobs}
                     request={async (params, sort, filter): Promise<any> => {
                         const query = buildQuery(params, sort, filter);
                         dispatch(fetchJob({ query }))

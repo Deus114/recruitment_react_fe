@@ -54,7 +54,7 @@ const LayoutClient = () => {
   )
 }
 
-export default function App() {
+export default function Router() {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.account.isLoading);
 

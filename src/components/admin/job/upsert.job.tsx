@@ -13,10 +13,11 @@ import { CheckSquareOutlined } from "@ant-design/icons";
 import enUS from 'antd/lib/locale/en_US';
 import dayjs from 'dayjs';
 import { IJob } from "@/types/backend";
+import { useAppSelector } from "@/redux/hooks";
 
 const ViewUpsertJob = (props: any) => {
     const [companies, setCompanies] = useState<ICompanySelect[]>([]);
-
+    const user = useAppSelector(state => state.account.user);
     const navigate = useNavigate();
     const [value, setValue] = useState<string>("");
 
@@ -62,12 +63,13 @@ const ViewUpsertJob = (props: any) => {
         const res = await callFetchCompany(`current=1&pageSize=100&name=/${name}/i`);
         if (res && res.data) {
             const list = res.data.result;
-            const temp = list.map(item => {
+            let temp = list.map(item => {
                 return {
                     label: item.name as string,
                     value: `${item._id}@#$${item.logo}` as string
                 }
             })
+            if (user.role.name === "HR") temp = temp.filter(item => item.label === user.company.name)
             return temp;
         } else return [];
     }

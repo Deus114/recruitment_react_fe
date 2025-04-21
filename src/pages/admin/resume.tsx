@@ -21,6 +21,7 @@ const ResumePage = () => {
     const meta = useAppSelector(state => state.resume.meta);
     const resumes = useAppSelector(state => state.resume.result);
     const dispatch = useAppDispatch();
+    const user = useAppSelector(state => state.account.user)
 
     const [dataInit, setDataInit] = useState<IResume | null>(null);
     const [openViewDetail, setOpenViewDetail] = useState<boolean>(false);
@@ -201,7 +202,10 @@ const ResumePage = () => {
                     rowKey="_id"
                     loading={isFetching}
                     columns={columns}
-                    dataSource={resumes}
+                    dataSource={
+                        user?.role?.name === "HR" ? resumes.filter(item => item.companyId === user?.company?._id)
+                            : resumes
+                    }
                     request={async (params, sort, filter): Promise<any> => {
                         const query = buildQuery(params, sort, filter);
                         dispatch(fetchResume({ query }))

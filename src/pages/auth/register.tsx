@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { callRegister } from 'config/api';
 import styles from 'styles/auth.module.scss';
 import { IUser } from '@/types/backend';
+import { HomeOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
 
@@ -122,7 +123,7 @@ const RegisterPage = () => {
                             <Divider> Or </Divider>
                             <p className="text text-normal" style={{ textAlign: 'center' }}> Đã có tài khoản ?
                                 <span>
-                                    <Link to='/login' > Đăng Nhập </Link>
+                                    <Link to='/login' > Đăng Nhập </Link> | <HomeOutlined onClick={() => navigate("/")} />
                                 </span>
                             </p>
                         </Form>

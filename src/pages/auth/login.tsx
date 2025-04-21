@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUserLoginInfo } from '@/redux/slice/accountSlide';
 import styles from 'styles/auth.module.scss';
+import { HomeOutlined } from '@ant-design/icons';
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -77,7 +78,7 @@ const LoginPage = () => {
                             <Divider>Or</Divider>
                             <p className="text text-normal" style={{ textAlign: 'center' }}>Chưa có tài khoản ?
                                 <span>
-                                    <Link to='/register' > Đăng Ký </Link>
+                                    <Link to='/register' > Đăng Ký </Link> | <HomeOutlined onClick={() => navigate("/")} />
                                 </span>
                             </p>
                         </Form>
