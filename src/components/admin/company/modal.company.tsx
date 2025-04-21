@@ -53,12 +53,7 @@ const ModalCompany = (props: IProps) => {
     const submitCompany = async (valuesForm: ICompanyForm) => {
         const { name, address } = valuesForm;
 
-        if (dataLogo.length === 0) {
-            message.error('Vui lòng upload ảnh Logo')
-            return;
-        }
-
-        if (dataInit?._id) {
+        if (dataInit?._id && dataLogo[0]?.name) {
             //update
             const res = await callUpdateCompany(dataInit._id, name, address, value, dataLogo[0].name);
             if (res.data) {
@@ -71,7 +66,20 @@ const ModalCompany = (props: IProps) => {
                     description: res.message
                 });
             }
-        } else {
+        } else if (dataInit?._id && dataLogo.length === 0) {
+            const res = await callUpdateCompany(dataInit._id, name, address, value, dataInit.logo);
+            if (res.data) {
+                message.success("Cập nhật company thành công");
+                handleReset();
+                reloadTable();
+            } else {
+                notification.error({
+                    message: 'Có lỗi xảy ra',
+                    description: res.message
+                });
+            }
+        }
+        else {
             //create
             const res = await callCreateCompany(name, address, value, dataLogo[0].name);
             if (res.data) {
@@ -218,7 +226,7 @@ const ModalCompany = (props: IProps) => {
                                         required: true,
                                         message: 'Vui lòng không bỏ trống',
                                         validator: () => {
-                                            if (dataLogo.length > 0) return Promise.resolve();
+                                            if (dataLogo.length > 0 || dataInit?._id) return Promise.resolve();
                                             else return Promise.reject(false);
                                         }
                                     }]}

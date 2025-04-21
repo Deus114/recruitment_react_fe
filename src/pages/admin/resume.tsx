@@ -4,7 +4,7 @@ import { IResume } from "@/types/backend";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProFormSelect } from '@ant-design/pro-components';
 import { Button, Popconfirm, Select, Space, Tag, message, notification } from "antd";
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { callDeleteResume } from "@/config/api";
 import queryString from 'query-string';
@@ -203,7 +203,7 @@ const ResumePage = () => {
                     loading={isFetching}
                     columns={columns}
                     dataSource={
-                        user?.role?.name === "HR" ? resumes.filter(item => item.companyId === user?.company?._id)
+                        user?.role?.name === "HR" ? resumes.filter(item => item.companyId._id === user?.company?._id)
                             : resumes
                     }
                     request={async (params, sort, filter): Promise<any> => {

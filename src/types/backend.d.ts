@@ -133,7 +133,7 @@ export interface IResume {
     userId: string;
     url: string;
     status: string;
-    companyId: string | {
+    companyId: {
         _id: string;
         name: string;
         logo: string;

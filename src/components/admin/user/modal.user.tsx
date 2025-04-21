@@ -50,6 +50,7 @@ const ModalUser = (props: IProps) => {
 
     const submitUser = async (valuesForm: any) => {
         const { name, email, password, address, age, gender, role, company } = valuesForm;
+        console.log(role)
         if (dataInit?._id) {
             //update
             const user = {
@@ -60,7 +61,7 @@ const ModalUser = (props: IProps) => {
                 age,
                 gender,
                 address,
-                role: role.value,
+                role: role._id,
                 company: {
                     _id: company.value,
                     name: company.label
