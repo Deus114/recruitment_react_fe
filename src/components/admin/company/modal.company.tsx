@@ -54,7 +54,6 @@ const ModalCompany = (props: IProps) => {
         const { name, address } = valuesForm;
 
         if (dataInit?._id && dataLogo[0]?.name) {
-            //update
             const res = await callUpdateCompany(dataInit._id, name, address, value, dataLogo[0].name);
             if (res.data) {
                 message.success("Cập nhật company thành công");
