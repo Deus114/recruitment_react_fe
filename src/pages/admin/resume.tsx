@@ -117,6 +117,19 @@ const ResumePage = () => {
             },
             hideInSearch: true,
         },
+        {
+            title: 'Tải CV',
+            dataIndex: "url",
+            render(value, record, index) {
+                return (
+                    <a
+                        href={`${import.meta.env.VITE_BACKEND_URL}/images/resume/${record?.url}`}
+                        target="_blank"
+                    >Tải về</a>
+                )
+            },
+            hideInSearch: true,
+        },
         // {
 
         //     title: 'Actions',
