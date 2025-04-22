@@ -33,6 +33,10 @@ const JobCard = (props: IProps) => {
         fetchJob();
     }, [current, pageSize, filter, sortQuery, qs]);
 
+    useEffect(() => {
+        setCurrent(1);
+    }, [qs]);
+
     const fetchJob = async () => {
         setIsLoading(true)
         let query = `current=${current}&pageSize=${pageSize}`;

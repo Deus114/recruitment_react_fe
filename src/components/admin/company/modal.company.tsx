@@ -99,7 +99,7 @@ const ModalCompany = (props: IProps) => {
         form.resetFields();
         setValue("");
         setDataInit(null);
-
+        setDataLogo([]);
         //add animation when closing modal
         setAnimation('close')
         await new Promise(r => setTimeout(r, 400))

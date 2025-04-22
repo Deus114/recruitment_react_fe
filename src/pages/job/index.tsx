@@ -14,7 +14,6 @@ const ClientJobPage = (props: any) => {
                         setQs={setQs}
                     />
                 </Col>
-                <Divider />
 
                 <Col span={24}>
                     <JobCard
