@@ -21,7 +21,7 @@ const ClientJobDetailPage = (props: any) => {
 
     let location = useLocation();
     let params = new URLSearchParams(location.search);
-    const id = params?.get("id"); // job id
+    const id = params?.get("id");
 
     useEffect(() => {
         const init = async () => {
