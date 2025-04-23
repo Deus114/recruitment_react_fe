@@ -24,6 +24,7 @@ const CompanyPage = () => {
     const companies = useAppSelector(state => state.company.result);
     const user = useAppSelector(state => state.account.user);
     const dispatch = useAppDispatch();
+    const [data, setData] = useState<ICompany[]>([]);
 
     const handleDeleteCompany = async (_id: string | undefined) => {
         if (_id) {
@@ -39,6 +40,11 @@ const CompanyPage = () => {
             }
         }
     }
+
+    useEffect(() => {
+        setData(user?.role?.name === "HR" ? companies.filter(item => item._id === user?.company?._id)
+            : companies)
+    }, [companies])
 
     const reloadTable = () => {
         tableRef?.current?.reload();
@@ -199,10 +205,7 @@ const CompanyPage = () => {
                     rowKey="_id"
                     loading={isFetching}
                     columns={columns}
-                    dataSource={
-                        user?.role.name === "HR" ? companies.filter(item => item.name === user?.company?.name)
-                            : companies
-                    }
+                    dataSource={data}
                     request={async (params, sort, filter): Promise<any> => {
                         const query = buildQuery(params, sort, filter);
                         dispatch(fetchCompany({ query }))

@@ -221,7 +221,7 @@ const JobPage = () => {
                     rowKey="_id"
                     loading={isFetching}
                     columns={columns}
-                    dataSource={user?.role?.name === "HR" ? jobs.filter(item => item.company?.name === user?.company?.name)
+                    dataSource={user?.role?.name === "HR" ? jobs.filter(item => item.company?._id === user?.company?._id)
                         : jobs}
                     request={async (params, sort, filter): Promise<any> => {
                         const query = buildQuery(params, sort, filter);
