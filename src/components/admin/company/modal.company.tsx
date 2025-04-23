@@ -47,6 +47,10 @@ const ModalCompany = (props: IProps) => {
     useEffect(() => {
         if (dataInit?._id && dataInit?.description) {
             setValue(dataInit.description);
+            form.setFieldsValue({
+                name: dataInit?.name ?? "",
+                address: dataInit?.address ?? ""
+            })
         }
     }, [dataInit])
 

@@ -117,8 +117,6 @@ const CompanyPage = () => {
                         permission={ALL_PERMISSIONS.COMPANIES.UPDATE}
                         hideChildren
                     >
-
-
                         <EditOutlined
                             style={{
                                 fontSize: 20,
