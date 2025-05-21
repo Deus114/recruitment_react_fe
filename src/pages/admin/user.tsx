@@ -55,6 +55,7 @@ const UserPage = () => {
                     <a href="#" onClick={() => {
                         setOpenViewDetail(true);
                         setDataInit(record);
+                        console.log(record)
                     }}>
                         {record._id}
                     </a>

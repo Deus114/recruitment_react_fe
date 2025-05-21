@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 interface IProps {
     onClose: (v: boolean) => void;
     open: boolean;
-    dataInit: IUser | null;
+    dataInit: IUser | null | any;
     setDataInit: (v: any) => void;
 }
 const ViewDetailUser = (props: IProps) => {
@@ -29,14 +29,11 @@ const ViewDetailUser = (props: IProps) => {
                     <Descriptions.Item label="Tuổi">{dataInit?.age}</Descriptions.Item>
 
                     <Descriptions.Item label="Vai trò" >
-                        <Badge status="processing" text={<>{dataInit?.role}</>} />
+                        <Badge status="processing" text={<>{dataInit?.role?.name}</>} />
                     </Descriptions.Item>
                     <Descriptions.Item label="Địa chỉ" >{dataInit?.address}</Descriptions.Item>
                     <Descriptions.Item label="Thông tin công ty" span={2}>
-                        Id: {dataInit?.company?._id ?? "-"}
-                        <br />
                         Tên: {dataInit?.company?.name ?? "-"}
-                        <br />
                     </Descriptions.Item>
                     <Descriptions.Item label="Ngày tạo">{dataInit && dataInit.createdAt ? dayjs(dataInit.createdAt).format('DD-MM-YYYY HH:mm:ss') : ""}</Descriptions.Item>
                     <Descriptions.Item label="Ngày sửa">{dataInit && dataInit.updatedAt ? dayjs(dataInit.updatedAt).format('DD-MM-YYYY HH:mm:ss') : ""}</Descriptions.Item>

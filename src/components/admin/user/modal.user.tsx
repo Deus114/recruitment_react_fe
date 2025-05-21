@@ -9,7 +9,7 @@ import { DebounceSelect } from "./debouce.select";
 interface IProps {
     openModal: boolean;
     setOpenModal: (v: boolean) => void;
-    dataInit?: IUser | null;
+    dataInit?: IUser | null | any;
     setDataInit: (v: any) => void;
     reloadTable: () => void;
 }
@@ -50,10 +50,10 @@ const ModalUser = (props: IProps) => {
 
     const submitUser = async (valuesForm: any) => {
         const { name, email, password, address, age, gender, role, company } = valuesForm;
-        console.log(role)
         if (dataInit?._id) {
             //update
-            const user = {
+            let user =
+            {
                 _id: dataInit._id,
                 name,
                 email,
@@ -62,10 +62,12 @@ const ModalUser = (props: IProps) => {
                 gender,
                 address,
                 role: role._id,
-                company: {
-                    _id: company.value,
-                    name: company.label
-                }
+                ...(company && {
+                    company: {
+                        _id: company.value,
+                        name: company.label
+                    }
+                })
             }
 
             const res = await callUpdateUser(user);
@@ -89,10 +91,12 @@ const ModalUser = (props: IProps) => {
                 gender,
                 address,
                 role: role.value,
-                company: {
-                    _id: company.value,
-                    name: company.label
-                }
+                ...(company && {
+                    company: {
+                        _id: company.value,
+                        name: company.label
+                    }
+                })
             }
             const res = await callCreateUser(user);
             if (res.data) {
@@ -244,7 +248,6 @@ const ModalUser = (props: IProps) => {
                         <ProForm.Item
                             name="company"
                             label="Thuộc Công Ty"
-                            rules={[{ required: true, message: 'Vui lòng chọn company!' }]}
                         >
                             <DebounceSelect
                                 allowClear
