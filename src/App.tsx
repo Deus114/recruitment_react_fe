@@ -146,7 +146,6 @@ export default function Router() {
       ],
     },
 
-
     {
       path: "/login",
       element: <LoginPage />,
