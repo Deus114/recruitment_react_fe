@@ -87,7 +87,7 @@ const ApplyModal = (props: IProps) => {
                 onOk={() => handleOkButton()}
                 onCancel={() => setIsModalOpen(false)}
                 maskClosable={false}
-                okText={isAuthenticated ? "Rải CV Nào " : "Đăng Nhập Nhanh"}
+                okText={isAuthenticated ? "Apply " : "Đăng Nhập Nhanh"}
                 cancelButtonProps={
                     { style: { display: "none" } }
                 }
